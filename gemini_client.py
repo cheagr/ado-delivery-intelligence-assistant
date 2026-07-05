@@ -59,7 +59,7 @@ def generate_ai_summary(feature_report: dict) -> str:
             prompt,
             generation_config={
                 "temperature": TEMPERATURE,
-                "max_output_tokens": MAX_OUTPUT_TOKENS,
+                # "max_output_tokens": MAX_OUTPUT_TOKENS,
             }
         )
         print("Generated content REPR: ", repr(response.text))

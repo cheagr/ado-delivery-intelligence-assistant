@@ -216,13 +216,13 @@ def main() -> None:
     # Calling AI for summmary
     print("calling AI for summary...")
     with st.spinner("Generating AI delivery insights..."):
-        # success, ai_summary = generate_ai_summary(feature_report)
-        result = generate_ai_summary(feature_report)
+        success, ai_summary = generate_ai_summary(feature_report)
+        # result = generate_ai_summary(feature_report)
 
-        st.write(type(result))
-        st.write(result)
+        # st.write(type(result))
+        # st.write(result)
 
-        st.stop()
+        # st.stop()
     # Displaying the summary
     st.header("## 🤖 AI Project Summary")
     #st.markdown(ai_summary)
