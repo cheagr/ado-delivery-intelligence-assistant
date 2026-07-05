@@ -2,6 +2,7 @@ import pandas as pd
 import streamlit as st
 from typing import Optional
 from business_rules import evaluate_business_rules, render_business_report
+from gemini_client import generate_ai_summary
 
 REQUIRED_COLUMNS = ["Ticket ID", "Type", "Parent", "Status", "Title", "Description"]
 VALID_TYPES = {"feature", "story", "subtask"}
@@ -207,9 +208,48 @@ def main() -> None:
     grouped, unlinked = group_hierarchy(df)
 
      # --- NEW: business rules (uses grouped + unlinked from above) ---
-    report = evaluate_business_rules(grouped, unlinked)
-    render_business_report(report)
+    print("Evaluating business rules...")
+    feature_report = evaluate_business_rules(grouped, unlinked)
+    render_business_report(feature_report)
     # --- END NEW ---
+
+    # Calling AI for summmary
+    print("calling AI for summary...")
+    with st.spinner("Generating AI delivery insights..."):
+        # success, ai_summary = generate_ai_summary(feature_report)
+        result = generate_ai_summary(feature_report)
+
+        st.write(type(result))
+        st.write(result)
+
+        st.stop()
+    # Displaying the summary
+    st.header("## 🤖 AI Project Summary")
+    #st.markdown(ai_summary)
+    if success:
+        st.write("Executive Summary:", ai_summary["executive_summary"])
+        st.subheader("⚠ Delivery Risks")
+
+        for risk in ai_summary["delivery_risks"]:
+            st.write(f"• {risk}")
+
+        st.subheader("✅ Suggested PM Actions")
+
+        for action in ai_summary["pm_actions"]:
+            st.write(f"• {action}")
+
+        quality = ai_summary["analysis_quality"]
+
+        st.subheader("📊 Analysis Quality")
+
+        st.metric(
+            "Confidence",
+            quality["confidence"]
+        )
+
+        st.caption(quality["reason"])
+    else:
+        st.error(f"Failed to generate AI summary. Error: {result['error']}")
 
     col1, col2, col3 = st.columns(3)
     col1.metric("Features", len(df[df["Type"] == "feature"]))

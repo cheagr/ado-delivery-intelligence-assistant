@@ -7,6 +7,9 @@ configuration in one place.
 """
 
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 # ----------------------------
@@ -24,7 +27,7 @@ GEMINI_MODEL = "gemini-2.5-flash"
 
 # Generation settings
 TEMPERATURE = 0.2
-MAX_OUTPUT_TOKENS = 800
+MAX_OUTPUT_TOKENS = 2000
 
 
 # ----------------------------
