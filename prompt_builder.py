@@ -44,29 +44,6 @@ def build_summary_prompt(feature_report: dict) -> str:
         4. Mention any Manual Review items. - 3 bullets
         5. Keep response concise and professional. - 40 words
 
-        Return ONLY valid JSON.
-
-        Schema:
-        {{
-            "executive_summary": "",
-            "delivery_risks": [
-                "...",
-                "..."
-            ],
-            "pm_actions": [
-                "...",
-                "..."
-            ],
-            "manual_review_items": [
-                "...",
-                "..."
-            ],
-            "analysis_quality": {{
-                "confidence": "High | Medium | Low",
-                "reason": "..."
-            }}
-        }}
-
         Do not include markdown.
         Do not include code fences.
         Do not include explanations outside JSON.

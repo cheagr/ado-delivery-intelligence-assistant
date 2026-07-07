@@ -11,6 +11,7 @@ Responsibilities:
 """
 
 from google import genai
+from schemas import AI_SUMMARY_SCHEMA
 import json
 
 from config import (
@@ -60,7 +61,9 @@ def generate_ai_summary(feature_report: dict) -> str:
             model=GEMINI_MODEL,
             contents=prompt,
             config={
-                 "temperature": TEMPERATURE
+                "temperature": TEMPERATURE,
+                "response_mime_type": "application/json",
+                "response_schema": AI_SUMMARY_SCHEMA,
             }
         )
         # response = model.generate_content(
@@ -77,7 +80,8 @@ def generate_ai_summary(feature_report: dict) -> str:
         if not response.text:
             return False, {"error": "No response received from Gemini."}
 
-        ai_result = json.loads(response.text)
+        ai_result = response.parsed #json.loads(response.text)
+        print (ai_result)
         return True, ai_result
 
     except Exception as ex:
