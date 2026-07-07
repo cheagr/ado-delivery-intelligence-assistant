@@ -122,7 +122,7 @@ def main() -> None:
 
         st.caption(quality["reason"])
     else:
-        st.error(f"Failed to generate AI summary. Error: {result['error']}")
+        st.error(f"Failed to generate AI summary. Error: {ai_summary['error']}")
 
     col1, col2, col3 = st.columns(3)
     col1.metric("Features", len(df[df["Type"] == "feature"]))

@@ -10,7 +10,7 @@ Responsibilities:
 - Handle failures gracefully
 """
 
-import google.generativeai as genai
+from google import genai
 import json
 
 from config import (
@@ -48,24 +48,32 @@ def generate_ai_summary(feature_report: dict) -> str:
     try:
 
         # Configure Gemini
-        genai.configure(api_key=GEMINI_API_KEY)
+        # genai.configure(api_key=GEMINI_API_KEY)
+        client = genai.Client(api_key=GEMINI_API_KEY)
 
-        model = genai.GenerativeModel(GEMINI_MODEL)
+        # model = genai.GenerativeModel(GEMINI_MODEL)
 
         prompt = build_summary_prompt(feature_report)
         # print(prompt)
         print(f"Max Token config: {MAX_OUTPUT_TOKENS}")
-        response = model.generate_content(
-            prompt,
-            generation_config={
-                "temperature": TEMPERATURE,
-                # "max_output_tokens": MAX_OUTPUT_TOKENS,
+        response = client.models.generate_content(
+            model=GEMINI_MODEL,
+            contents=prompt,
+            config={
+                 "temperature": TEMPERATURE
             }
         )
-        print("Generated content REPR: ", repr(response.text))
-        print(f"Resonse Candidate: {response.candidates}")
-        print(f"Prompt feedback: {response.prompt_feedback}")
-        print(f"Finish reason : {response.candidates[0].finish_reason}")
+        # response = model.generate_content(
+        #     prompt,
+        #     generation_config={
+        #         "temperature": TEMPERATURE,
+        #         # "max_output_tokens": MAX_OUTPUT_TOKENS,
+        #     }
+        # )
+        # print("Generated content REPR: ", repr(response.text))
+        # print(f"Resonse Candidate: {response.candidates}")
+        # print(f"Prompt feedback: {response.prompt_feedback}")
+        # print(f"Finish reason : {response.candidates[0].finish_reason}")
         if not response.text:
             return False, {"error": "No response received from Gemini."}
 
