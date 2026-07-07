@@ -4,6 +4,7 @@ from typing import Optional
 from business_rules import evaluate_business_rules, render_business_report
 from gemini_client import generate_ai_summary
 from excel_parser import parse_excel
+from startup import validate_configuration
 
 
 def format_ticket_line(ticket: dict, indent: str = "", label: str = "") -> str:
@@ -61,6 +62,13 @@ def render_hierarchy(grouped: list[dict], unlinked: list[dict]) -> None:
 
 def main() -> None:
     st.set_page_config(page_title="ADO Ticket Hierarchy", layout="wide")
+
+    success, error = validate_configuration()
+
+    if not success:
+        st.error(error)
+        st.stop()
+
     st.title("ADO Ticket Hierarchy Viewer")
     st.caption("Upload an Excel export to view Feature → Story → Subtask hierarchy.")
 
