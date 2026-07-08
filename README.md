@@ -1,4 +1,4 @@
-# ADO Delivery Intelligence Assistant
+# **ADO Delivery Intelligence Assistant**
 
 An AI-powered assistant that analyzes Azure DevOps (ADO) work item exports to generate delivery insights for Product Managers and Delivery Leads.
 
@@ -15,13 +15,9 @@ Although Azure DevOps contains all implementation details, understanding deliver
 This prototype reduces that effort by automatically:
 
 - Building Feature → Story → Subtask hierarchy
-
 - Evaluating delivery progress using deterministic business rules
-
 - Identifying delivery inconsistencies
-
 - Highlighting blocked work
-
 - Producing an AI-generated executive delivery summary
 
 ---
@@ -31,15 +27,10 @@ This prototype reduces that effort by automatically:
 ### Deterministic Analysis
 
 - Parses Azure DevOps Excel exports
-
 - Builds hierarchical ticket relationships
-
 - Calculates feature completion
-
 - Detects parent/child status inconsistencies
-
 - Identifies blocked tickets
-
 - Highlights manual review items
 
 ### AI Insights
@@ -47,13 +38,9 @@ This prototype reduces that effort by automatically:
 Using Google Gemini, the assistant generates:
 
 - Executive Summary
-
 - Delivery Risks
-
 - Suggested PM Actions
-
 - Manual Review Summary
-
 - Confidence Assessment
 
 The AI layer reasons only over validated business-rule outputs rather than raw ticket data, reducing hallucination risk.
@@ -70,19 +57,19 @@ The AI layer reasons only over validated business-rule outputs rather than raw t
 
                      ▼
 
-             excel_[parser.py](http://parser.py)
+                excel_[parser.py](http://parser.py)
 
                      │
 
                      ▼
 
-          business_[rules.py](http://rules.py)
+               business_[rules.py](http://rules.py)
 
                      │
 
                      ▼
 
-          prompt_[builder.py](http://builder.py)
+               prompt_[builder.py](http://builder.py)
 
                      │
 
@@ -94,22 +81,20 @@ The AI layer reasons only over validated business-rule outputs rather than raw t
 
                      ▼
 
-           gemini_[client.py](http://client.py)
+                gemini_[client.py](http://client.py)
 
                      │
 
                      ▼
-
-          Google Gemini 2.5 Flash
+  
+             Google Gemini 2.5 Flash
 
 ```
 
 Configuration is managed through:
 
 - [config.py](http://config.py)
-
 - app_[startup.py](http://startup.py)
-
 - .env
 
 ---
@@ -117,15 +102,10 @@ Configuration is managed through:
 ## Tech Stack
 
 - Python
-
 - Streamlit
-
 - Pandas
-
 - OpenPyXL
-
 - Google Gemini 2.5 Flash
-
 - Google GenAI SDK
 
 ---
@@ -143,15 +123,10 @@ The LLM performs reasoning—not calculations.
 Responsibilities are separated into dedicated modules:
 
 - Excel Parsing
-
 - Business Rule Engine
-
 - Prompt Builder
-
 - Response Schema
-
 - Gemini Client
-
 - Application Startup Validation
 
 ### Structured AI Outputs
@@ -163,23 +138,14 @@ The application uses schema-based structured outputs instead of prompt-engineere
 ## AI Concepts Demonstrated
 
 - Enterprise AI Architecture
-
 - LLM Integration
-
 - Prompt Engineering
-
 - Structured Outputs
-
 - Response Schemas
-
 - Modular AI Design
-
 - Hallucination Mitigation
-
 - Secure API Configuration
-
 - Configuration Validation
-
 - AI-assisted Product Management
 
 ---
@@ -188,8 +154,8 @@ The application uses schema-based structured outputs instead of prompt-engineere
 
 ```
 
-Upload ADO Excel
-
+Upload an Azure DevOps Excel export containing Features, Stories and Subtasks.
+![Upload file](images/Upload-File.png)
         │
 
         ▼
@@ -207,13 +173,16 @@ Build Ticket Hierarchy
         ▼
 
 Evaluate Business Rules
+The application builds ticket hierarchy, evaluates completion, identifies blocked work and manual review items.
 
+![Business Rules](images/business-rules-report.png)
         │
 
         ▼
 
 Generate AI Delivery Insights
-
+Gemini generates an executive summary, delivery risks and recommended PM actions using the validated business-rule output.
+![AI Summary](images/llm-generated-summary.png)
         │
 
         ▼
@@ -227,17 +196,11 @@ Display Executive Dashboard
 ## Future Enhancements
 
 - Direct Azure DevOps REST API integration
-
 - Sprint forecasting
-
 - Historical trend analysis
-
 - Team capacity insights
-
 - Multi-feature portfolio analysis
-
 - Release health dashboard
-
 - PDF / PowerPoint report export
 
 ---
