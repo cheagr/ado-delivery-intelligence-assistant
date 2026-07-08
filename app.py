@@ -69,8 +69,8 @@ def main() -> None:
         st.error(error)
         st.stop()
 
-    st.title("ADO Ticket Hierarchy Viewer")
-    st.caption("Upload an Excel export to view Feature → Story → Subtask hierarchy.")
+    st.title("ADO Delivery Intelligence Assistant")
+    st.caption("Upload an Excel export from ADO for any feature")
 
     uploaded_file = st.file_uploader("Upload Excel file (.xlsx)", type=["xlsx"])
 
@@ -91,8 +91,6 @@ def main() -> None:
      # --- NEW: business rules (uses grouped + unlinked from above) ---
     print("Evaluating business rules...")
     feature_report = evaluate_business_rules(grouped, unlinked)
-    render_business_report(feature_report)
-    # --- END NEW ---
 
     # Calling AI for summmary
     print("calling AI for summary...")
@@ -108,14 +106,14 @@ def main() -> None:
     st.header("## 🤖 AI Project Summary")
     #st.markdown(ai_summary)
     if success:
-        st.write("Executive Summary:", ai_summary["executive_summary"])
+        st.subheader("Executive Summary:")
+        st.write(ai_summary["executive_summary"])
+        
         st.subheader("⚠ Delivery Risks")
-
         for risk in ai_summary["delivery_risks"]:
             st.write(f"• {risk}")
 
         st.subheader("✅ Suggested PM Actions")
-
         for action in ai_summary["pm_actions"]:
             st.write(f"• {action}")
 
@@ -132,16 +130,19 @@ def main() -> None:
     else:
         st.error(f"Failed to generate AI summary. Error: {ai_summary['error']}")
 
+    render_business_report(feature_report)
     col1, col2, col3 = st.columns(3)
     col1.metric("Features", len(df[df["Type"] == "feature"]))
     col2.metric("Stories", len(df[df["Type"] == "story"]))
     col3.metric("Unlinked", len(unlinked))
 
-    with st.expander("Raw normalized data"):
-        st.dataframe(df, use_container_width=True)
 
     st.subheader("Ticket Hierarchy")
-    render_hierarchy(grouped, unlinked)
+    with st.expander("Determistic Hierarchy Generated"):
+        render_hierarchy(grouped, unlinked)
+    
+    with st.expander("Raw normalized data"):
+        st.dataframe(df, use_container_width=True)
 
 
 if __name__ == "__main__":

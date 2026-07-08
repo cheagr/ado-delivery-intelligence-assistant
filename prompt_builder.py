@@ -38,11 +38,11 @@ def build_summary_prompt(feature_report: dict) -> str:
 
         Your tasks are:
 
-        1. Write an Executive Summary - should be 1 liner
+        1. Write an Executive Summary - should be 2 liner
         2. Highlight Delivery Risks. - 3 bullets
         3. Recommend PM Actions. - 3 bullets
         4. Mention any Manual Review items. - 3 bullets
-        5. Keep response concise and professional. - 40 words
+        5. Keep response concise and professional. - 80 words
 
         Do not include markdown.
         Do not include code fences.
